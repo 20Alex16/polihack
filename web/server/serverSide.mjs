@@ -27,7 +27,7 @@ parser.on('data', data => {
 })
 
 setInterval(() => {
-    if(!port.isOpen()){
+    if(!port.isOpen){
         try{
             port.open()
         }

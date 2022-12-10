@@ -23,7 +23,7 @@ function addValue(which, val){
         case '3':
             values3.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
             while(values3.length > maxValues) values3.shift();
-            FrontEnd.updateChart(3,values3);
+            FrontEnd.updateChart(values3);
             break;
     }
 }

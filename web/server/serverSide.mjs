@@ -1,42 +1,50 @@
 import { ReadlineParser, SerialPort } from'serialport'
+import { EventEmitter } from 'events'
 console.clear()
 
-/////// VARIABILE ////////
+/////// VARIABILE //////// Begining
 
 const PORT = 'COM6'
 
-/////////////////////////
+///////////////////////// Core
 
-var port = new SerialPort({ path: PORT, baudRate: 9600 })
-// console.log(port)
+var incomingData = new EventEmitter();
 
-
-const parser = new ReadlineParser();
-
-port.on('open', () => {
-    port.pipe(parser)
-    console.log('Conectat!')
-})
-
-port.on('close', () => {
-    console.log('Deconectat!')
-})
-
-parser.on('data', data => {
+incomingData.on('data', data => { // data is a JSON object
     console.log(data)
 })
 
-setInterval(() => {
-    if(!port.isOpen){
-        try{
-            port.open()
-        }
-        catch(e){
-            console.log("Could not open port!", e)
-        }
-    }
-}, 100);
+///////////////////////// Handling connectoin
 
-// SerialPort.list().then(ports => {
-//     console.log(ports)
-// })
+const parser = new ReadlineParser();
+var port = null;
+
+setInterval(() => {
+    if(port) return;
+    console.log("Trying to open port...")
+    SerialPort.list().then(ports => {
+        let aux = ports.find(p => p.path == PORT)
+        if(!aux || port) return;
+
+        port = new SerialPort({ path: PORT, baudRate: 9600 })
+
+        port.pipe(parser)
+        port.on('open', () => {
+            port.flush()
+            console.log('Conectat!')
+        })
+
+        port.on('close', () => {
+            console.log('Deconectat!')
+            port = null;
+        })
+
+        parser.on('data', data => {
+            try{
+                incomingData.emit('data', JSON.parse(data))
+                // dump corrupted data
+            }
+            catch (e){}
+        })
+    })
+}, 1000);

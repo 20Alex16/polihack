@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+:root {
+    --marine: #392F5A;
+    --lblue: #4381C1;
+    --blueish: #CDEDF6;
+    --greeny: #1A936F;
+    --washedyellow: #DBD56E;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    background-color: var(--blueish);
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    position: sticky;
+    width: 100%;
+    height: 80px;
+    background-color: var(--lblue);
+
+    justify-content: space-between;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+}
+
+h1.title {
+    margin: auto;
+    color: white;
+    text-shadow: 2px 2px 5px black;
+    font-size: xx-large;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+}
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 10px;
+
+    width: 30%;
+    max-width:190px;
+    height:90vh;
+    background-color: #FFC412;
+    /* background-color: var(--greeny); */
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.menu-button {
+    display: flex;
+    user-select: none;
+
+    background-color: transparent;
+    font-family: 'Montserrat';
+    color: var(--lblue);
+    
+    margin: 4px;
+    margin-inline: 10px;
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color ease-in 0.1s;
+}
+
+.menu-button:hover{
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+input[type="radio"]:checked + .menu-button{
+    background-color: var(--greeny);
+    color:white;
+}
+
+.menu-button:hover::before {
+    content: '>';
+    margin-right: 5px;
+}
+
+img.logo {
+    height: 100%;
+    aspect-ratio: 1;
+    scale: 1.1;
+    background-clip: border-box;
+}
+
+canvas{
+    color:white;
+    min-height: 200px;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.aria{
+    /* background-color: red; */
+    display: flex;
+    padding:10px;
+    margin:10px;
+    flex-direction: column;
+}
+
+.disconnected.hidden{
+    bottom:100% !important;
+}
+
+.disconnected{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    bottom:0;
+    z-index: 10;
+    transition: bottom cubic-bezier(0.075, 0.82, 0.165, 1) 0.7s;
+}
+
+.disconnected::after{
+    content: "Deconectat";
+    display: flex;
+    height: 100%;
+
+    background-image: url("https://static.thenounproject.com/png/2490449-200.png");
+    background-repeat: no-repeat;
+    background-size: min(50vw, 25vh) min(50vw, 25vh);
+    background-position: 50% calc(50% - min(50vw, 25vh));
+
+    color:white;
+    font-size: 12vw;
+    text-shadow: 2px 2px 5px black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+/* #canvas_priza3, #canvas_priza2{
+    display: none;
+} */

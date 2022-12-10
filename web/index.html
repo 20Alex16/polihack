@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <script src="clientSide.mjs"></script>
+    <script src="clientSide.mjs" type="module"></script>
     <title>Hugz for bugz</title>
 </head>
 <body>
+    <div class="disconnected hidden"></div>
     <div class="wrapper">
         <div class="devices">
             
@@ -18,13 +19,11 @@
 
 <template>
     <div class="device">
-        <div class="device__image">
+        <div class="device_image">
             <img src="" alt="">
         </div>
-        <div class="device__info">
-            <h3 class="device__name"></h3>
-            <p class="device__description"></p>
-        </div>
+        <h3 class="device_name"></h3>
+        <p class="device_description">dada</p>
     </div>
 </template>
 </html>

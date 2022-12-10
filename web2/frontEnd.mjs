@@ -24,7 +24,8 @@ var chart1 = new Chart("canvas_priza1", {
     data: {
         labels: [],
         datasets: [{
-            label: localStorage.getItem('priza1') || 'Aparat 1',
+            label: 'Aparat',
+            //label: localStorage.getItem('priza1') || 'Aparat 1',
             data: [],
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -37,7 +38,8 @@ var chart2 = new Chart("canvas_priza2", {
     data: {
         labels: [],
         datasets: [{
-            label: localStorage.getItem('priza2') || 'Aparat 2',
+            label: 'Aparat',
+            // label: localStorage.getItem('priza2') || 'Aparat 2',
             data: [],
             borderColor: 'rgb(201, 52, 235)',
             backgroundColor: 'rgba(201, 52, 235, 0.5)',
@@ -50,10 +52,11 @@ var chart3 = new Chart("canvas_priza3", {
     data: {
         labels: [],
         datasets: [{
-            label: localStorage.getItem('priza3') || 'Aparat 3',
+            label: 'Aparat',
+            // label: localStorage.getItem('priza3') || 'Aparat 3',
             data: [],
-            borderColor: 'rgb(0, 255, 0)',
-            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+            borderColor: 'rgb(0, 0, 255)',
+            backgroundColor: 'rgba(0, 0, 255, 0.5)',
         }]
     },
     options: options
@@ -70,10 +73,28 @@ function updateChart(chartNo, values) {
     chart.update();
 }
 
+var chart_canvases = []
+document.addEventListener('DOMContentLoaded', () => {
+    chart_canvases.push(document.querySelector('#canvas_priza1'));
+    chart_canvases.push(document.querySelector('#canvas_priza2'));
+    chart_canvases.push(document.querySelector('#canvas_priza3'));
+
+    let radioButtons = document.querySelectorAll("input[name='selectie']");
+    radioButtons.forEach((radioButton, index) => {
+        radioButton.addEventListener('change', () => {
+            toggleChart(index + 1);
+        });
+    });
+    toggleChart(1);
+});
+
 function toggleChart(val) {
-    // make all charts displayed as none
-    // document.querySelectorAll('.chart').forEach(chart => {
-    // document.querySelector('.chart').style.top = val ? '0' : '100%';
+    val--; // index from 0
+    chart_canvases.forEach((canvas, index) =>{
+        canvas.style.display = index == val ? 'inherit' : 'none';
+    })
+    if(val < chart_canvases.length)
+        chart_canvases[val].style.display = 'inherit';
 }
 
 export { setConnected, updateChart, toggleChart }

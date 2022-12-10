@@ -155,5 +155,6 @@ button:hover{
     z-index: 4;
     width: 80%;
     height: 50%;
+    max-width: 90%;
     border-radius: 20px;
 }

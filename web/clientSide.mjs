@@ -11,19 +11,19 @@ function addValue(which, val){
         case '1':
             values1.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
             while(values1.length > maxValues) values1.shift();
-            FrontEnd.updateChart(values1);
+            FrontEnd.updateChart(1,values1);
             break;
 
         case '2':
             values2.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
             while(values2.length > maxValues) values2.shift();
-            FrontEnd.updateChart(values2);
+            FrontEnd.updateChart(2,values2);
             break;
 
         case '3':
             values3.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
             while(values3.length > maxValues) values3.shift();
-            FrontEnd.updateChart(values3);
+            FrontEnd.updateChart(3,values3);
             break;
     }
 }

@@ -20,22 +20,35 @@
     </nav>
     <div class="wrapper">
         <div class="side-panel">
-
+            
             <input type="radio" id="priza1" name="selectie" value="priza1" checked>
             <label for="priza1" class="menu-button">Aparat 1</label>
-
+            
             <input type="radio" id="priza2" name="selectie" value="priza2">
             <label for="priza2" class="menu-button">Aparat 2</label>
-
+            
             <input type="radio" id="priza3" name="selectie" value="priza3">
             <label for="priza3" class="menu-button">Aparat 3</label>
+            
+            <input type="radio" id="pie" name="selectie" value="pie">
+            <label for="pie" class="menu-button" style="margin-top:20px;">Rezumat</label>
+            <div class="bubble">
+                <h1 class="title">Autori</h1>
+                <ul>
+                    <li>Radu Tompea</li>
+                    <li>Antonia Zeibel</li>
+                    <li>Bianca Dinis</li>
+                    <li>Vlad Demean</li>
+                    <li>Alex Tripa</li>
+                </ul>
+            </div>
+
         </div>
         <div class="aria">
-            <canvas id="canvas_priza1">
-                
-            </canvas>
-            <canvas id="canvas_priza2"></canvas>
-            <canvas id="canvas_priza3"></canvas>
+            <canvas id="canvas_priza1" class="chart"></canvas>
+            <canvas id="canvas_priza2" class="chart"></canvas>
+            <canvas id="canvas_priza3" class="chart"></canvas>
+            <canvas id="pie_chart"></canvas>
         </div>
     </div>
 </body>

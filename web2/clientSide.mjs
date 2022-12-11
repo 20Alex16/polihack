@@ -2,28 +2,32 @@ import * as FrontEnd from './frontEnd.mjs';
 const ws = new WebSocket(`ws://${window.location.host}:8080`);
 var incomingInfo = new EventTarget();
 
+const fix2digit = x => {
+    let s = x.toString();
+    return (s.length == 1 ? '0' : '') + s;
+};
+
 var values1 = [], values2 = [], values3 = [];
 const maxValues = 15;
-function addValue(which, val){
-    // console.log(which, val)
+function addValue(which, val) {
     let now = new Date();
-    switch(which){
-        case '1':
-            values1.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
-            while(values1.length > maxValues) values1.shift();
-            FrontEnd.updateChart(1,values1);
+    switch (which) {
+        case 1:
+            values1.push([`${fix2digit(now.getMinutes())}:${fix2digit(now.getSeconds())}`, val]);
+            while (values1.length > maxValues) values1.shift();
+            FrontEnd.updateChart(1, values1);
             break;
 
-        case '2':
-            values2.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
-            while(values2.length > maxValues) values2.shift();
-            FrontEnd.updateChart(2,values2);
+        case 2:
+            values2.push([`${fix2digit(now.getMinutes())}:${fix2digit(now.getSeconds())}`, val]);
+            while (values2.length > maxValues) values2.shift();
+            FrontEnd.updateChart(2, values2);
             break;
 
-        case '3':
-            values3.push([`${now.getMinutes()}:${now.getSeconds()}`,val]);
-            while(values3.length > maxValues) values3.shift();
-            FrontEnd.updateChart(values3);
+        case 3:
+            values3.push([`${fix2digit(now.getMinutes())}:${fix2digit(now.getSeconds())}`, val]);
+            while (values3.length > maxValues) values3.shift();
+            FrontEnd.updateChart(3, values3);
             break;
     }
 }
@@ -43,25 +47,33 @@ ws.onmessage = incoming => { // data is already a JSON object
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const deviceContainer = document.querySelector('.devices');
-    const deviceTemplate = document.getElementsByTagName('template')[0]
-        .content.querySelector('.device');
+    // const deviceContainer = document.querySelector('.devices');
+    // const deviceTemplate = document.getElementsByTagName('template')[0]
+    //     .content.querySelector('.device');
 
-    document.querySelector('.chart').addEventListener('click', event => {
-        FrontEnd.toggleChart(false);
-    });
+    // document.querySelector('.chart').addEventListener('click', event => {
+    //     FrontEnd.toggleChart(false);
+    // });
+
 
     incomingInfo.addEventListener('data', event => {
         let data = event.detail;
-        if(data.state){
+        if (data.state) {
             FrontEnd.setConnected(data.state == 'online');
             // alert(data.state);
             return;
         }
+
+        addValue(1, data.priza1);
+        addValue(2, data.priza2);
+        addValue(3, data.priza3);
+        // console.log(data);
+        return;
+        // FrontEnd.updateChart
         // if there are no children, create them!
         if (deviceContainer.children.length == 0) {
             // console.log(data)
-            for(const [device_name, device_value] of Object.entries(data)) {
+            for (const [device_name, device_value] of Object.entries(data)) {
                 let device = deviceTemplate.cloneNode(true);
                 device.id = device_name;
                 device.querySelector('.device-image').src = 'https://static.thenounproject.com/png/5044017-200.png';
@@ -76,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let name_element = device.querySelector('.device-name')
                 name_element.addEventListener('blur', event => {
                     let text = name_element.textContent;
-                    text = text.replace(/\n/g,' ');
+                    text = text.replace(/\n/g, ' ');
                     text = text.slice(0, 15);
                     name_element.textContent = text;
                     localStorage.setItem(device_name, name_element.textContent);
@@ -84,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 addValue(device_name.slice(-1), device_value);
             }
         }
-        else{ // update the data
-            for(const [device_name, device_value] of Object.entries(data)) {
+        else { // update the data
+            for (const [device_name, device_value] of Object.entries(data)) {
                 let device = document.getElementById(device_name);
                 device.querySelector('.expand-info').textContent = device_value.toFixed(1);
                 addValue(device_name.slice(-1), device_value);
